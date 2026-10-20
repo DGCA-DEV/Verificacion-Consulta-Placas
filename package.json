@@ -1,0 +1,9 @@
+{
+  "name": "verificacion-consulta-placas",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "tailwindcss -i ./tailwind.css -o ./assets/tailwind.css --watch",
+    "build": "tailwindcss -i ./tailwind.css -o ./assets/tailwind.css --minify"
+  }
+}
