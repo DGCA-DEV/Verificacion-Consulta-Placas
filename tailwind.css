@@ -1,0 +1,36 @@
+@import "tailwindcss" source(none);
+@source "./index.html";
+@source "./app.js";
+
+@theme {
+  --font-sans: Gilroy, "Segoe UI", sans-serif;
+  --color-primary: #5f1b2d;
+  --color-strong: #861e34;
+  --color-gold: #cfa34f;
+  --color-ink: #11212d;
+  --color-muted: #586474;
+}
+
+/* URLs relative to compiled assets/tailwind.css. */
+@font-face {
+  font-family: Gilroy;
+  src: url("./fonts/Gilroy-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: Gilroy;
+  src: url("./fonts/Gilroy-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+@layer base {
+  h1, h2, h3, strong, label, button { @apply font-extrabold; }
+  :focus-visible { @apply outline-3 outline-offset-4 outline-gold; }
+  svg {
+    @apply size-[21px] shrink-0 fill-none stroke-current;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
