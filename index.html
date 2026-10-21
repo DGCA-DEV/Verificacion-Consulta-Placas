@@ -1,41 +1,66 @@
 <!doctype html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#5f1b2d">
-  <meta name="description" content="Consulta de placas de verificación vehicular de Puebla.">
-  <title>Consulta de placas | Verificación vehicular</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="app.js" defer></script>
-</head>
-<body>
-  <a class="skip-link" href="#contenido">Ir al contenido</a>
-  <aside class="sidebar">
-    <a class="brand" href="./" aria-label="Inicio de consulta de placas"><img src="assets/logoPueblaDorado.svg" alt="Gobierno de Puebla" width="170" height="68"></a>
-    <div class="system-name"><span>VERIFICACIÓN VEHICULAR</span><strong>Consulta de placas</strong><p>Gobierno del Estado de Puebla</p></div>
-    <nav aria-label="Navegación principal"><a href="#contenido" aria-current="page"><svg aria-hidden="true"><use href="#search-icon"/></svg>Buscar placa<svg class="arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a></nav>
-    <div class="sidebar-note"><span class="gold-line"></span><p>Consulta la información de<br>verificación de tu vehículo.</p><small>PUEBLA · VERIFICACIÓN VEHICULAR</small></div>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#5f1b2d">
+    <meta name="description" content="Consulta de placas de verificación vehicular de Puebla.">
+    <title>Consulta de placas | Verificación vehicular</title>
+    <link rel="stylesheet" href="assets/tailwind.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body class="min-h-screen bg-[radial-gradient(circle_at_top,rgba(207,163,79,.12),transparent_35%),linear-gradient(180deg,#f8f4ee,#efe6d7)] font-sans text-base leading-normal font-light text-ink">
+    <a class="fixed -top-20 left-5 z-50 bg-white p-3 focus:top-3" href="#contenido">Ir al contenido</a>
+    <aside class="fixed inset-y-0 left-0 flex w-66 flex-col bg-primary bg-[linear-gradient(rgba(20,3,10,.85),rgba(50,10,24,.92)),url('./institutional-banner.png')] bg-cover bg-center px-6 py-9 text-white max-[1100px]:w-56.25 max-[1100px]:px-5 max-[1100px]:py-7 max-[700px]:static max-[700px]:w-full max-[700px]:flex-row max-[700px]:items-center max-[700px]:justify-between max-[700px]:gap-3 max-[700px]:px-5.5 max-[700px]:py-4">
+      <a class="shrink-0 [&_img]:h-auto [&_img]:w-42.5 max-[700px]:[&_img]:w-30"
+      href="./" aria-label="Inicio de consulta de placas"><img src="assets/logoPueblaDorado.svg" alt="Gobierno de Puebla" width="170" height="68"></a>
+    <div class="min-w-0 mt-9.5 border-t border-white/15 pt-6.25 [&>span]:text-[10px] [&>span]:tracking-[2px] [&>span]:text-[#e2c68f] [&_strong]:mt-1.75 [&_strong]:block [&_strong]:text-[23px] [&_p]:mt-1.5 [&_p]:text-xs [&_p]:text-[#e1d5d7] max-[700px]:m-0 max-[700px]:border-0 max-[700px]:p-0 max-[700px]:text-right max-[700px]:[&>span]:text-[8px] max-[700px]:[&>span]:tracking-[1px] max-[700px]:[&_strong]:text-[17px] max-[700px]:[&_p]:hidden"><span>VERIFICACIÓN VEHICULAR</span><strong>Consulta de placas</strong><p>Gobierno del Estado de Puebla</p></div>
+    <nav class="mt-9 max-[700px]:hidden [&_a]:flex [&_a]:items-center [&_a]:gap-3 [&_a]:rounded-[14px] [&_a]:bg-white [&_a]:p-3.75 [&_a]:text-sm [&_a]:font-extrabold [&_a]:text-primary" aria-label="Navegación principal"><a href="#contenido" aria-current="page"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg>Buscar placa<svg class="ml-auto w-[15px]" aria-hidden="true" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></a>
+    </nav>
+    <div class="mt-auto pt-17.5 [&_p]:text-sm [&_p]:text-[#eee0e2] [&_small]:mt-6 [&_small]:block [&_small]:text-[8px] [&_small]:tracking-[1.5px] [&_small]:text-[#d7b780] max-[700px]:hidden"><span class="mb-[18px] block h-[3px] w-[34px] bg-gold"></span><p>Consulta la información de<br>verificación de tu vehículo.</p><small>PUEBLA · VERIFICACIÓN VEHICULAR</small></div>
   </aside>
-  <div class="page">
-    <header class="header"><div><p class="eyebrow">CONSULTA VEHICULAR</p><h1>Búsqueda de placas</h1><p>Consulta la información de verificación de un vehículo por su placa.</p></div><span class="module-badge">Consulta de placas</span></header>
-    <main id="contenido">
-      <div class="breadcrumb">Verificación vehicular <span aria-hidden="true">/</span> <strong>Buscar placa</strong></div>
-      <section class="search-card" aria-labelledby="search-title">
-        <div class="card-heading"><div class="icon-box"><svg aria-hidden="true"><use href="#search-icon"/></svg></div><div><p class="eyebrow">BÚSQUEDA POR PLACA</p><h2 id="search-title">Ingresa los datos del vehículo</h2><p>Ten a la mano la placa que aparece en tu tarjeta de circulación.</p></div></div>
-        <form id="search-form" novalidate>
-          <label for="plate">Placa del vehículo <span aria-hidden="true">*</span></label>
-          <div class="form-row"><div class="input-wrap"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M7 10h10M7 14h3m4 0h3"/></svg><input id="plate" name="plate" placeholder="Ej. ABC123D" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="plate-help plate-error" required></div><button class="primary" type="submit"><svg aria-hidden="true"><use href="#search-icon"/></svg>Buscar placa</button><button class="secondary" type="reset">Limpiar</button></div>
-          <p id="plate-help" class="help">Escribe de 5 a 9 letras y números. Puedes omitir espacios y guiones.</p>
-          <p id="plate-error" class="error" role="alert" hidden></p>
+  <div class="ml-66 flex min-h-screen flex-col max-[1100px]:ml-56.25 max-[700px]:ml-0 max-[700px]:min-h-[calc(100vh-90px)]">
+    <header class="flex items-center justify-between gap-5 rounded-b-[28px] border-b border-[#e6e2dc] bg-white/92 px-10.5 py-7.5 shadow-[0_14px_35px_#0f17240a] [&_h1]:mt-2 [&_h1]:mb-2.5 [&_h1]:text-[34px] [&_h1]:leading-[1.2] [&_h1]:text-strong [&_p:last-child]:text-sm [&_p:last-child]:text-muted max-[1100px]:p-[26px] max-[700px]:rounded-b-[22px] max-[700px]:px-[22px] max-[700px]:py-[25px] max-[700px]:[&_h1]:text-[28px]">
+      <div>
+        <p class="text-[10px] font-extrabold tracking-[2.8px] text-primary">CONSULTA VEHICULAR</p>
+        <h1>Búsqueda de placas</h1><p>Consulta la información de verificación de un vehículo por su placa.</p></div>
+      <span class="whitespace-nowrap rounded-[30px] border border-primary/12 bg-primary/3 px-[13px] py-[7px] text-[11px] font-extrabold text-primary max-[1100px]:hidden">Consulta de placas</span>
+    </header>
+    <main class="mx-auto w-full max-w-300 flex-1 px-10.5 pt-7 pb-6 min-[1500px]:pt-10 max-[1100px]:p-6 max-[700px]:px-4 max-[700px]:py-5.5" id="contenido" tabindex="-1">
+      <div class="mb-6.25 text-xs text-muted [&_span]:mx-3 [&_span]:text-[#a69b92] [&_strong]:text-primary max-[700px]:mb-5 max-[700px]:text-[11px]">Verificación vehicular <span aria-hidden="true">/</span> <strong>Buscar placa</strong></div>
+      <section class="rounded-3xl border border-white bg-white p-7.5 shadow-[0_8px_30px_#44251a05] min-[1500px]:p-9.5 max-[700px]:rounded-[20px] max-[700px]:px-4.5 max-[700px]:py-5.5" aria-labelledby="search-title">
+        <div class="flex items-center gap-4.25 [&_h2]:my-1 [&_h2]:text-[23px] [&_h2]:text-primary [&_p:last-child]:text-sm [&_p:last-child]:text-muted max-[700px]:items-start max-[700px]:gap-3 max-[700px]:[&_h2]:text-xl max-[700px]:[&_p:last-child]:text-[13px]">
+          <div class="grid size-[54px] shrink-0 place-items-center rounded-2xl border border-primary/7 bg-primary/4 text-strong max-[700px]:size-[42px] max-[700px]:rounded-xl"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg></div>
+          <div>
+            <p class="text-[10px] font-extrabold tracking-[2.8px] text-primary">BÚSQUEDA POR PLACA</p>
+            <h2 id="search-title">Ingresa los datos del vehículo</h2><p>Ten a la mano la placa que aparece en tu tarjeta de circulación.</p></div>
+        </div>
+        <form class="mt-7.5" id="search-form" novalidate>
+          <label class="mb-2.25 block text-sm [&_span]:text-strong" for="plate">Placa del vehículo <span aria-hidden="true">*</span>
+          </label>
+          <div class="flex gap-3 max-[1100px]:flex-wrap max-[380px]:flex-col">
+            <div class="relative min-w-0 flex-1 [&_svg]:absolute [&_svg]:top-4 [&_svg]:left-4 [&_svg]:text-[#81786f] max-[1100px]:basis-full"><svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M7 10h10M7 14h3m4 0h3"/></svg>
+              <input class="h-[54px] w-full rounded-xl border border-[#cfc8c0] bg-white py-3 pr-4 pl-12 font-extrabold tracking-[1.5px] text-ink uppercase placeholder:font-light placeholder:tracking-[1px] placeholder:text-[#93969d] placeholder:normal-case aria-invalid:border-[#b33a3a]" id="plate" name="plate" placeholder="Ej. ABC123D" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="plate-help plate-error" required></div>
+            <button class="flex min-h-[54px] cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-primary bg-primary px-[21px] py-3 text-sm text-white hover:bg-strong max-[1100px]:flex-1" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg>Buscar placa</button>
+            <button class="flex min-h-[54px] cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-[#ded7cf] bg-white px-[21px] py-3 text-sm text-primary hover:bg-[#f8f4ee]" type="reset">Limpiar</button></div>
+          <p id="plate-help" class="mt-2.25 text-xs text-muted">Escribe de 5 a 9 letras y números. Puedes omitir espacios y guiones.</p>
+          <p id="plate-error" class="mt-2 text-[13px] text-[#a32634]" role="alert" hidden></p>
         </form>
-        <div class="notice"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg><p>Verifica que la placa esté escrita correctamente antes de realizar la búsqueda.</p></div>
+        <div class="mt-6.25 flex items-center gap-2.5 rounded-xl border border-gold/20 bg-[#fcf9f2] px-3.75 py-3.25 text-xs text-[#6c5838] [&_svg]:size-4.5 max-[700px]:items-start"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg><p>Verifica que la placa esté escrita correctamente antes de realizar la búsqueda.</p></div>
       </section>
-      <section class="results" aria-labelledby="results-title"><div class="results-heading"><h2 id="results-title">Resultado de la consulta</h2><span id="result-badge">Sin consulta</span></div><div class="empty-state" role="status" aria-live="polite" aria-atomic="true"><div class="result-icon"><svg aria-hidden="true"><use href="#search-icon"/></svg></div><h3 id="result-title">Tu consulta comienza aquí</h3><p id="result-description">Ingresa una placa y selecciona “Buscar placa” para continuar.</p></div></section>
-      <p class="bottom-note">Consulta de verificación vehicular · Puebla</p>
+      <section class="mt-5.75 rounded-3xl border border-white bg-white px-7.5 py-6.25 shadow-[0_8px_30px_#44251a05] max-[700px]:rounded-[20px] max-[700px]:px-4.5 max-[700px]:py-5.5" aria-labelledby="results-title">
+        <div class="flex flex-wrap items-center justify-between gap-3.75 [&_h2]:text-lg [&_span]:rounded-[20px] [&_span]:border [&_span]:border-[#e9e3dc] [&_span]:bg-[#f4f1ed] [&_span]:px-3 [&_span]:py-1.25 [&_span]:text-[11px] [&_span]:text-[#6c655e] max-[700px]:[&_h2]:text-base max-[700px]:[&_span]:text-[10px]">
+          <h2 id="results-title">Resultado de la consulta</h2><span id="result-badge" class="shrink-0 whitespace-nowrap">Sin consulta</span></div>
+        <div class="px-2.5 pt-8 pb-6 text-center [&_h3]:text-lg [&_h3]:text-[#554844] [&_p]:mx-auto [&_p]:mt-2 [&_p]:max-w-127.5 [&_p]:text-sm [&_p]:text-muted [&_p]:wrap-anywhere min-[1500px]:py-12 max-[700px]:px-0 max-[700px]:pt-7 max-[700px]:pb-3.75" role="status" aria-live="polite" aria-atomic="true">
+          <div class="mx-auto mb-3.75 grid size-15.5 place-items-center rounded-full bg-[#f8f4ee] text-[#aa8c63] [&_svg]:size-6.75"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg></div>
+          <h3 id="result-title">Tu consulta comienza aquí</h3>
+          <p id="result-description">Ingresa una placa y selecciona “Buscar placa” para continuar.</p></div>
+      </section>
+      <p class="mt-6.25 text-center text-[11px] text-[#73675d]">Consulta de verificación vehicular · Puebla</p>
     </main>
-    <footer><img src="assets/logo_footer.gif" alt="Identidad institucional del Gobierno del Estado de Puebla" width="736" height="92"></footer>
+    <footer class="flex h-14 justify-center overflow-hidden bg-primary [&_img]:h-14 [&_img]:w-md [&_img]:max-w-full [&_img]:object-cover"><img src="assets/logo_footer.gif" alt="Identidad institucional del Gobierno del Estado de Puebla" width="736" height="92">
+    </footer>
   </div>
-  <svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><symbol id="search-icon" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol></svg>
+  <svg class="absolute size-0 overflow-hidden" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><symbol id="search-icon" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol></svg>
 </body>
 </html>
