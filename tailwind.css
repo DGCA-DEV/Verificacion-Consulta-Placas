@@ -34,3 +34,48 @@
     stroke-linejoin: round;
   }
 }
+
+.result-details section {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #e6e2dc;
+  border-radius: 0.75rem;
+  background: white;
+}
+.result-details h4 {
+  margin-bottom: 0.75rem;
+  color: #5f1b2d;
+  font-weight: 800;
+}
+.result-details dl {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+  gap: 0.75rem;
+}
+.result-details dt {
+  color: #586474;
+  font-size: 0.75rem;
+}
+.result-details dd {
+  margin-top: 0.15rem;
+  color: #11212d;
+  overflow-wrap: anywhere;
+}
+.result-details table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.8rem;
+}
+.result-details th,
+.result-details td {
+  padding: 0.6rem;
+  border-bottom: 1px solid #e6e2dc;
+}
+.result-details th {
+  color: #5f1b2d;
+}
+.result-error {
+  margin-top: 0.75rem;
+  color: #a32634;
+}
