@@ -1,23 +1,20 @@
 const form = document.querySelector('#search-form');
-const plateInput = document.querySelector('#plate');
-const serialInput = document.querySelector('#serial');
-const apiKeyInput = document.querySelector('#api-key');
-const error = document.querySelector('#plate-error');
+const identifierInput = document.querySelector('#vehicle-identifier');
+const error = document.querySelector('#identifier-error');
 const badge = document.querySelector('#result-badge');
 const title = document.querySelector('#result-title');
 const description = document.querySelector('#result-description');
 const details = document.querySelector('#result-details');
 
-const endpoints = [
-  { name: 'Documentos históricos', url: 'http://192.10.10.64:8020/smadsot/docs_historico' },
-  { name: 'Verificaciones históricas', url: 'http://192.10.10.64:8020/smadsot/verificaciones/historico' },
-];
+const endpoint = {
+  name: 'Verificaciones históricas',
+  url: 'http://192.10.10.64:8020/smadsot/verificaciones/historico',
+};
 
 let activeRequest;
 
 function clearError() {
-  plateInput.removeAttribute('aria-invalid');
-  apiKeyInput.removeAttribute('aria-invalid');
+  identifierInput.removeAttribute('aria-invalid');
   error.hidden = true;
   error.textContent = '';
 }
@@ -25,7 +22,7 @@ function clearError() {
 function resetResult() {
   badge.textContent = 'Sin consulta';
   title.textContent = 'Tu consulta comienza aquí';
-  description.textContent = 'Ingresa los datos y selecciona “Buscar placa” para continuar.';
+  description.textContent = 'Ingresa la placa o el número de serie y selecciona “Buscar vehículo” para continuar.';
   details.replaceChildren();
 }
 
@@ -33,7 +30,12 @@ function isRecord(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
 
-async function requestHistory(endpoint, payload, apiKey, signal) {
+async function requestHistory(endpoint, payload, signal) {
+  const apiKey = window.APP_CONFIG?.apiKey;
+  if (!apiKey) {
+    throw new Error('No se configuró la API Key pública para la consulta.');
+  }
+
   const response = await fetch(endpoint.url, {
     method: 'POST',
     headers: {
@@ -160,8 +162,8 @@ function renderResults(results) {
   if (failed.length) {
     addMessage(failed.map(({ error: requestError }) => requestError.message).join(' '), 'result-error');
   }
-  if (!hasVehicleData && !verifications.length) {
-    addMessage('Las APIs respondieron, pero no devolvieron datos de vehículo ni verificaciones.');
+  if (!failed.length && !hasVehicleData && !verifications.length) {
+    addMessage('El servicio respondió, pero no devolvió datos de vehículo ni verificaciones.');
   }
 
   if (failed.length === results.length) {
@@ -171,11 +173,11 @@ function renderResults(results) {
   } else if (failed.length) {
     badge.textContent = 'Resultado parcial';
     title.textContent = 'Consulta incompleta';
-    description.textContent = 'Al menos uno de los servicios no respondió correctamente.';
+    description.textContent = 'El servicio no respondió correctamente.';
   } else if (hasVehicleData || verifications.length) {
     badge.textContent = 'Consulta completada';
     title.textContent = 'Datos encontrados';
-    description.textContent = 'Información devuelta por los servicios de consulta histórica.';
+    description.textContent = 'Información devuelta por el servicio de consulta histórica.';
   } else {
     badge.textContent = 'Sin resultados';
     title.textContent = 'No se encontraron registros';
@@ -191,53 +193,51 @@ function showValidationError(message, input) {
   input.focus();
 }
 
-for (const input of [plateInput, serialInput, apiKeyInput]) {
-  input.addEventListener('input', () => {
-    activeRequest?.abort();
-    activeRequest = undefined;
-    clearError();
-    resetResult();
-  });
-}
+identifierInput.addEventListener('input', () => {
+  activeRequest?.abort();
+  activeRequest = undefined;
+  clearError();
+  resetResult();
+});
 
 form.addEventListener('submit', async (event) => {
   event.preventDefault();
   clearError();
 
-  const plate = plateInput.value.toUpperCase().replace(/[\s-]/g, '');
-  const apiKey = apiKeyInput.value.trim();
-  if (!/^(?=.*[A-Z])(?=.*\d)[A-Z\d]{5,9}$/.test(plate)) {
-    showValidationError(
-      plate ? 'Revisa la placa: debe contener de 5 a 9 letras y números, sin caracteres especiales.' : 'Ingresa la placa del vehículo para continuar.',
-      plateInput,
-    );
+  const identifier = identifierInput.value.trim().toUpperCase();
+  if (!identifier) {
+    showValidationError('Ingresa la placa o el número de serie del vehículo para continuar.', identifierInput);
     return;
   }
-  if (!apiKey) {
-    showValidationError('Ingresa la API Key para consultar los servicios.', apiKeyInput);
+  if (identifier.length > 32) {
+    showValidationError('El dato ingresado no debe exceder 32 caracteres.', identifierInput);
     return;
   }
 
-  apiKeyInput.value = '';
-  plateInput.value = plate;
-  serialInput.value = serialInput.value.trim().toUpperCase();
-  const payload = { placa: plate, no_serie: serialInput.value };
+  identifierInput.value = identifier;
+  const isPlate = /^(?=.*[A-Z])(?=.*\d)[A-Z\d]{5,9}$/.test(identifier.replace(/[\s-]/g, ''));
+  const payload = {
+    placa: isPlate ? identifier.replace(/[\s-]/g, '') : '',
+    no_serie: isPlate ? '' : identifier,
+  };
   activeRequest?.abort();
   activeRequest = new AbortController();
   const { signal } = activeRequest;
 
   badge.textContent = 'Consultando';
   title.textContent = 'Buscando información';
-  description.textContent = 'Consultando documentos y verificaciones históricas.';
+  description.textContent = 'Consultando verificaciones históricas.';
   details.replaceChildren();
 
-  const responses = await Promise.all(endpoints.map(async (endpoint) => {
-    try {
-      return { data: await requestHistory(endpoint, payload, apiKey, signal) };
-    } catch (requestError) {
-      return { error: requestError };
+  let responses;
+  try {
+    responses = [{ data: await requestHistory(endpoint, payload, signal) }];
+  } catch (requestError) {
+    if (requestError instanceof TypeError) {
+      requestError.message = `${endpoint.name}: no se pudo conectar; revisa la conexión y la configuración CORS de la API.`;
     }
-  }));
+    responses = [{ error: requestError }];
+  }
   if (signal.aborted) return;
   renderResults(responses);
 });

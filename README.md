@@ -28,12 +28,10 @@ Edita las clases Tailwind en `index.html`. El tema, las fuentes y las reglas bas
 
 ## Consulta de historial
 
-El formulario envía una solicitud `POST` con `placa` y `no_serie` a los endpoints de documentos y verificaciones históricas en `http://192.10.10.64:8020`. El encabezado `X-API-Key` se toma del campo temporal de la página y no se persiste.
+El formulario tiene un solo campo para placa o número de serie. El frontend reconoce como placa una entrada de 5 a 9 caracteres alfanuméricos que incluya letras y números; otros valores se envían como número de serie. Envía una solicitud `POST` con `placa` y `no_serie` directamente a `http://192.10.10.64:8020/smadsot/verificaciones/historico`.
 
-Como la clave se utiliza directamente desde el navegador, puede ser inspeccionada por quien use la página. Para producción, configura HTTPS y CORS en el servicio y considera un proxy seguro para no exponer la clave. Los navegadores también pueden bloquear la solicitud si el sitio se sirve por HTTPS y el API solo está disponible por HTTP.
+La API Key pública se configura en `api-config.js` y se envía en el encabezado `X-API-Key`. Esta clave queda visible para cualquier usuario que visite el sitio; úsala solo si está autorizada para exposición pública. La API también debe permitir el origen donde se publica esta página mediante CORS.
 
-El frontend muestra datos del vehículo, verificaciones y errores por endpoint. La validación de placa conserva el formato básico de 5 a 9 caracteres alfanuméricos con al menos una letra y un número.
+El frontend muestra los datos de vehículo, verificaciones y errores del endpoint. El valor de búsqueda está limitado a 32 caracteres.
 
 Los recursos de assets provienen de ../SIDAP-Frontend/public.
-
-No hay API conectada ni registros ficticios. Reemplaza el estado de servicio pendiente en app.js al integrar la API, agregando estados de carga, resultados y errores. Ajusta la validación a las reglas del servicio.

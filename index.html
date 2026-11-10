@@ -7,7 +7,8 @@
     <meta name="description" content="Consulta de placas de verificación vehicular de Puebla.">
     <title>Consulta de placas | Verificación vehicular</title>
     <link rel="stylesheet" href="assets/tailwind.css">
-    <script src="app.js" defer></script>
+    <script src="api-config.js?v=20261110-3" defer></script>
+    <script src="app.js?v=20261110-3" defer></script>
   </head>
   <body class="min-h-screen bg-[radial-gradient(circle_at_top,rgba(207,163,79,.12),transparent_35%),linear-gradient(180deg,#f8f4ee,#efe6d7)] font-sans text-base leading-normal font-light text-ink">
     <a class="fixed -top-20 left-5 z-50 bg-white p-3 focus:top-3" href="#contenido">Ir al contenido</a>
@@ -32,27 +33,20 @@
           <div class="grid size-[54px] shrink-0 place-items-center rounded-2xl border border-primary/7 bg-primary/4 text-strong max-[700px]:size-[42px] max-[700px]:rounded-xl"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg></div>
           <div>
             <p class="text-[10px] font-extrabold tracking-[2.8px] text-primary">BÚSQUEDA POR PLACA</p>
-            <h2 id="search-title">Ingresa los datos del vehículo</h2><p>Ten a la mano la placa que aparece en tu tarjeta de circulación.</p></div>
+            <h2 id="search-title">Ingresa los datos del vehículo</h2><p>Ten a la mano la placa o el número de serie de tu vehículo.</p></div>
         </div>
         <form class="mt-7.5" id="search-form" novalidate>
           <div class="grid gap-3">
-            <label class="block text-sm" for="plate">Placa del vehículo <span class="text-strong" aria-hidden="true">*</span>
-              <input class="mt-2 h-[54px] w-full rounded-xl border border-[#cfc8c0] bg-white px-4 py-3 font-extrabold tracking-[1.5px] text-ink uppercase placeholder:font-light placeholder:tracking-[1px] placeholder:text-[#93969d] placeholder:normal-case aria-invalid:border-[#b33a3a]" id="plate" name="plate" placeholder="Ej. ABC123D" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="plate-help plate-error" required>
-            </label>
-            <label class="block text-sm" for="serial">Número de serie (opcional)
-              <input class="mt-2 h-[54px] w-full rounded-xl border border-[#cfc8c0] bg-white px-4 py-3 font-extrabold tracking-[1.5px] text-ink uppercase placeholder:font-light placeholder:tracking-[1px] placeholder:text-[#93969d] placeholder:normal-case" id="serial" name="no_serie" placeholder="Número de serie del vehículo" maxlength="32" autocomplete="off" autocapitalize="characters" spellcheck="false">
-            </label>
-            <label class="block text-sm" for="api-key">API Key <span class="text-strong" aria-hidden="true">*</span>
-              <input class="mt-2 h-[54px] w-full rounded-xl border border-[#cfc8c0] bg-white px-4 py-3 text-ink" id="api-key" name="api_key" type="password" autocomplete="off" spellcheck="false" aria-describedby="api-key-help" required>
+            <label class="block text-sm" for="vehicle-identifier">Placa o número de serie
+              <input class="mt-2 h-[54px] w-full rounded-xl border border-[#cfc8c0] bg-white px-4 py-3 font-extrabold tracking-[1.5px] text-ink uppercase placeholder:font-light placeholder:tracking-[1px] placeholder:text-[#93969d] placeholder:normal-case aria-invalid:border-[#b33a3a]" id="vehicle-identifier" name="vehicle_identifier" placeholder="Ej. ABC123D o número de serie" maxlength="32" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="identifier-help identifier-error" required>
             </label>
           </div>
-          <p id="plate-help" class="mt-2.25 text-xs text-muted">Escribe de 5 a 9 letras y números. Puedes omitir espacios y guiones.</p>
-          <p id="api-key-help" class="mt-2.25 text-xs text-muted">Se envía en el encabezado X-API-Key y no se guarda. Al ser una conexión desde el navegador, la clave puede verse en las herramientas de desarrollo y en el tráfico de red.</p>
+          <p id="identifier-help" class="mt-2.25 text-xs text-muted">Ingresa una placa (de 5 a 9 letras y números) o el número de serie.</p>
           <div class="mt-4 flex gap-3 max-[380px]:flex-col">
-            <button class="flex min-h-[54px] cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-primary bg-primary px-[21px] py-3 text-sm text-white hover:bg-strong" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg>Buscar placa</button>
+            <button class="flex min-h-[54px] cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-primary bg-primary px-[21px] py-3 text-sm text-white hover:bg-strong" type="submit"><svg aria-hidden="true" viewBox="0 0 24 24" focusable="false"><use href="#search-icon"/></svg>Buscar vehículo</button>
             <button class="flex min-h-[54px] cursor-pointer items-center justify-center gap-2.5 rounded-xl border border-[#ded7cf] bg-white px-[21px] py-3 text-sm text-primary hover:bg-[#f8f4ee]" type="reset">Limpiar</button>
           </div>
-          <p id="plate-error" class="mt-2 text-[13px] text-[#a32634]" role="alert" hidden></p>
+          <p id="identifier-error" class="mt-2 text-[13px] text-[#a32634]" role="alert" aria-live="assertive" hidden></p>
         </form>
         <div class="mt-6.25 flex items-center gap-2.5 rounded-xl border border-gold/20 bg-[#fcf9f2] px-3.75 py-3.25 text-xs text-[#6c5838] [&_svg]:size-4.5 max-[700px]:items-start"><svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v1"/></svg><p>Verifica que la placa esté escrita correctamente antes de realizar la búsqueda.</p></div>
       </section>
